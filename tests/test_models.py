@@ -14,7 +14,6 @@ from django_soft_delete_model_mixin import models
 
 
 class TestDjango_soft_delete_model_mixin(TestCase):
-
     def setUp(self):
         pass
 

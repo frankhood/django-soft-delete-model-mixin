@@ -13,10 +13,13 @@ logger = logging.getLogger(__name__)
 class SoftDeleteModelMixin(models.Model):
     active_objects = app_managers.SoftDeleteModelManager()
 
-    is_removed = models.BooleanField(_('Is removed'), default=False,
-                                     help_text=_('Soft Deleted.'))
+    is_removed = models.BooleanField(
+        _("Is removed"), default=False, help_text=_("Soft Deleted.")
+    )
 
     class Meta:
+        """SoftDeleteModelMixin Meta."""
+
         abstract = True
 
     def remove(self, commit=True):

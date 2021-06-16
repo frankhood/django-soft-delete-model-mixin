@@ -38,6 +38,7 @@ htmlcov
 
 # Pycharm/Intellij
 .idea
+/db.sqlite3
 
 # Complexity
 output/*.html

@@ -5,6 +5,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('django_soft_delete_model_mixin.urls', namespace='django_soft_delete_model_mixin')),
+    url(r"^admin/", admin.site.urls),
+    url(
+        r"^",
+        include(
+            "django_soft_delete_model_mixin.urls",
+            namespace="django_soft_delete_model_mixin",
+        ),
+    ),
 ]

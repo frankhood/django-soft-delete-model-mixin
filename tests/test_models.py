@@ -11,14 +11,13 @@ Tests for `django-soft-delete-model-mixin` models module.
 from django.test import TestCase
 
 from django_soft_delete_model_mixin import models
+from tests.example.models import Book
 
 
-class TestDjango_soft_delete_model_mixin(TestCase):
-    def setUp(self):
-        pass
-
-    def test_something(self):
-        pass
-
-    def tearDown(self):
-        pass
+class TestDjangoSoftDeleteModelMixin(TestCase):
+    def test_soft_delete(self):
+        test_book = Book.objects.create(title="Test")
+        test_book.delete()
+        test_book.refresh_from_db()
+        self.assertTrue(test_book)
+        self.assertTrue(test_book.is_removed)

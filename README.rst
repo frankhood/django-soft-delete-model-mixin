@@ -11,7 +11,7 @@ Soft Delete Model Mixin
 .. image:: https://codecov.io/gh/frankhood/django-soft-delete-model-mixin/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/frankhood/django-soft-delete-model-mixin
 
-A Soft delete model mixin for your Django Model
+Use this package if you want a soft delete in your model that remove the entries in your admin but not from the database.
 
 Documentation
 -------------

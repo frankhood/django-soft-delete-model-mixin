@@ -31,22 +31,37 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'django_soft_delete_model_mixin.apps.DjangoSoftDeleteModelMixinConfig',
+        'django_soft_delete_model_mixin',
         ...
     )
 
-Add Soft Delete Model Mixin's URL patterns:
+Add it to your Model:
 
 .. code-block:: python
 
-    from django_soft_delete_model_mixin import urls as django_soft_delete_model_mixin_urls
+    from django_soft_delete_model_mixin.models import SoftDeleteModelMixin
 
+    class Book(SoftDeleteModelMixin, models.Model):
+        objects = BookManager.from_queryset(BookQuerySet)()
+        title = models.CharField("Title", max_length=255)
 
-    urlpatterns = [
-        ...
-        url(r'^', include(django_soft_delete_model_mixin_urls)),
-        ...
-    ]
+        class Meta:
+            """Book Meta."""
+
+            verbose_name = "Book"
+            verbose_name_plural = "Books"
+
+        def __str__(self):
+            return self.title
+            
+Use it in your Admin:
+
+.. code-block:: python
+
+    @admin.register(Book)
+    class BookAdmin(SoftDeleteModelAdmin):
+        list_display = ("title",)
+        fields = ("title",)
 
 Features
 --------

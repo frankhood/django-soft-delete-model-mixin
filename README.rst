@@ -11,7 +11,7 @@ Soft Delete Model Mixin
 .. image:: https://codecov.io/gh/frankhood/django-soft-delete-model-mixin/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/frankhood/django-soft-delete-model-mixin
 
-A Soft delete model mixin for your Django Model
+Use this package if you want a soft delete in your model that remove the entries in your admin but not from the database.
 
 Documentation
 -------------
@@ -31,22 +31,37 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'soft_delete_model_mixin.apps.DjangoSoftDeleteModelMixinConfig',
+        'soft_delete_model_mixin',
         ...
     )
 
-Add Soft Delete Model Mixin's URL patterns:
+Add it to your Model:
 
 .. code-block:: python
 
     from soft_delete_model_mixin import urls as soft_delete_model_mixin_urls
 
+    class Book(SoftDeleteModelMixin, models.Model):
+        objects = BookManager.from_queryset(BookQuerySet)()
+        title = models.CharField("Title", max_length=255)
 
-    urlpatterns = [
-        ...
-        url(r'^', include(soft_delete_model_mixin_urls)),
-        ...
-    ]
+        class Meta:
+            """Book Meta."""
+
+            verbose_name = "Book"
+            verbose_name_plural = "Books"
+
+        def __str__(self):
+            return self.title
+            
+Use it in your Admin:
+
+.. code-block:: python
+
+    @admin.register(Book)
+    class BookAdmin(SoftDeleteModelAdmin):
+        list_display = ("title",)
+        fields = ("title",)
 
 Features
 --------

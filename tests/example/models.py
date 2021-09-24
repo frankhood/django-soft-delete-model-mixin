@@ -1,6 +1,6 @@
 from django.db import models
 
-from django_soft_delete_model_mixin.models import SoftDeleteModelMixin
+from soft_delete_model_mixin.models import SoftDeleteModelMixin
 from tests.example.managers import BookManager
 from tests.example.querysets import BookQuerySet
 

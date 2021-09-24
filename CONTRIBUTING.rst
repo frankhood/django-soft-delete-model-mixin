@@ -77,7 +77,7 @@ Ready to contribute? Here's how to set up `django-soft-delete-model-mixin` for l
 5. When you're done making changes, check that your changes pass flake8 and the
    tests, including testing other Python versions with tox::
 
-        $ flake8 django_soft_delete_model_mixin tests
+        $ flake8 soft_delete_model_mixin tests
         $ python setup.py test
         $ tox
 
@@ -109,4 +109,4 @@ Tips
 
 To run a subset of tests::
 
-    $ python -m unittest tests.test_django_soft_delete_model_mixin
+    $ python -m unittest tests.test_soft_delete_model_mixin

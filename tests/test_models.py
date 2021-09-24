@@ -10,7 +10,7 @@ Tests for `django-soft-delete-model-mixin` models module.
 
 from django.test import TestCase
 
-from django_soft_delete_model_mixin import models
+from soft_delete_model_mixin import models
 from tests.example.models import Book
 
 

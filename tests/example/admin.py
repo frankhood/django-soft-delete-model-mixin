@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from django_soft_delete_model_mixin.admin import SoftDeleteModelAdmin
+from soft_delete_model_mixin.admin import SoftDeleteModelAdmin
 from tests.example.models import Book
 
 

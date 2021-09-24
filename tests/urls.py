@@ -9,8 +9,8 @@ urlpatterns = [
     url(
         r"^",
         include(
-            "django_soft_delete_model_mixin.urls",
-            namespace="django_soft_delete_model_mixin",
+            "soft_delete_model_mixin.urls",
+            namespace="soft_delete_model_mixin",
         ),
     ),
 ]

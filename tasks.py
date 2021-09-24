@@ -50,7 +50,7 @@ def docs(c):
     """
     c.run("rm -f docs/django-soft-delete-model-mixin.rst")
     c.run("rm -f docs/modules.rst")
-    c.run("sphinx-apidoc -o docs/ django_soft_delete_model_mixin")
+    c.run("sphinx-apidoc -o docs/ soft_delete_model_mixin")
 
     c.run("sphinx-build -E -b html docs docs/_build")
     open_browser(path="docs/_build/html/index.html")
@@ -86,7 +86,7 @@ def lint(c):
     """
     Check style with flake8
     """
-    c.run("flake8 django_soft_delete_model_mixin tests")
+    c.run("flake8 soft_delete_model_mixin tests")
 
 
 @task(help={"bumpsize": 'Bump either for a "feature" or "breaking" change'})
@@ -100,14 +100,14 @@ def release(c, bumpsize=""):
 
     c.run("bumpversion {bump} --no-input".format(bump=bumpsize))
 
-    import django_soft_delete_model_mixin
+    import soft_delete_model_mixin
 
     c.run("python setup.py sdist bdist_wheel")
     c.run("twine upload dist/*")
 
     c.run(
         'git tag -a {version} -m "New version: {version}"'.format(
-            version=django_soft_delete_model_mixin.__version__
+            version=soft_delete_model_mixin.__version__
         )
     )
     c.run("git push --tags")

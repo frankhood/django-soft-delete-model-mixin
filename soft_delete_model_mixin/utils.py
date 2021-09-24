@@ -74,7 +74,7 @@ class AsActionMixin(object):
 
 class SoftDeleteActionView(AsActionMixin, TemplateView):
     template_name = (
-        "admin/django_soft_delete_model_mixin/soft_delete_selected_confirmation.html"
+        "admin/soft_delete_model_mixin/soft_delete_selected_confirmation.html"
     )
     short_description = ugettext_lazy("Delete selected %(verbose_name_plural)s")
     action_name = b"soft_delete_selected"
@@ -239,7 +239,7 @@ def soft_delete_selected(modeladmin, request, queryset):
             "admin/%s/%s/soft_delete_selected_confirmation.html"
             % (app_label, opts.model_name),
             "admin/%s/soft_delete_selected_confirmation.html" % app_label,
-            "admin/django_soft_delete_model_mixin/soft_delete_selected_confirmation.html",
+            "admin/soft_delete_model_mixin/soft_delete_selected_confirmation.html",
         ],
         context,
     )

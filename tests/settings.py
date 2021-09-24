@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_soft_delete_model_mixin",
+    "soft_delete_model_mixin",
     "tests.example",
 ]
 

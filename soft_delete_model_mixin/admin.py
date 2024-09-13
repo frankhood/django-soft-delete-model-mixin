@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 
 from soft_delete_model_mixin.utils import soft_delete_selected

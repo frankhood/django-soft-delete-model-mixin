@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # complexity documentation build configuration file, created by
 # sphinx-quickstart on Tue Jul  9 22:26:36 2013.
@@ -11,7 +10,10 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import os
+import sys
+
+import soft_delete_model_mixin
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -22,7 +24,6 @@ cwd = os.getcwd()
 parent = os.path.dirname(cwd)
 sys.path.append(parent)
 
-import soft_delete_model_mixin
 
 # -- General configuration -----------------------------------------------------
 
@@ -46,8 +47,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"Soft Delete Model Mixin"
-copyright = u"2021, FrankHood Business Solutions srl"
+project = "Soft Delete Model Mixin"
+copyright = "2021, FrankHood Business Solutions srl"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -178,13 +179,13 @@ htmlhelp_basename = "django-soft-delete-model-mixindoc"
 
 # -- Options for LaTeX output --------------------------------------------------
 
-latex_elements = {
+latex_elements: dict = {
     # The paper size ('letterpaper' or 'a4paper').
-    #'papersize': 'letterpaper',
+    # 'papersize': 'letterpaper',
     # The font size ('10pt', '11pt' or '12pt').
-    #'pointsize': '10pt',
+    # 'pointsize': '10pt',
     # Additional stuff for the LaTeX preamble.
-    #'preamble': '',
+    # 'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -193,8 +194,8 @@ latex_documents = [
     (
         "index",
         "django-soft-delete-model-mixin.tex",
-        u"Soft Delete Model Mixin Documentation",
-        u"FrankHood Business Solutions srl",
+        "Soft Delete Model Mixin Documentation",
+        "FrankHood Business Solutions srl",
         "manual",
     ),
 ]
@@ -228,8 +229,8 @@ man_pages = [
     (
         "index",
         "django-soft-delete-model-mixin",
-        u"Soft Delete Model Mixin Documentation",
-        [u"FrankHood Business Solutions srl"],
+        "Soft Delete Model Mixin Documentation",
+        ["FrankHood Business Solutions srl"],
         1,
     )
 ]
@@ -247,8 +248,8 @@ texinfo_documents = [
     (
         "index",
         "django-soft-delete-model-mixin",
-        u"Soft Delete Model Mixin Documentation",
-        u"FrankHood Business Solutions srl",
+        "Soft Delete Model Mixin Documentation",
+        "FrankHood Business Solutions srl",
         "django-soft-delete-model-mixin",
         "One line description of project.",
         "Miscellaneous",

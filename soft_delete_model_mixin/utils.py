@@ -9,12 +9,12 @@ from django.core.exceptions import PermissionDenied
 from django.db import router
 from django.template.response import TemplateResponse
 from django.utils.decorators import classonlymethod
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.encoding import force_str
+from django.utils.translation import gettext as _, gettext_lazy
 from django.views.generic import TemplateView
 
 
-class AsActionMixin(object):
+class AsActionMixin:
 
     short_description = None
     action_name = None
@@ -30,12 +30,13 @@ class AsActionMixin(object):
         for key in initkwargs:
             if key in cls.http_method_names:
                 raise TypeError(
-                    u"You tried to pass in the %s method name as a "
-                    u"keyword argument to %s(). Don't do that." % (key, cls.__name__)
+                    "You tried to pass in the %s method name as a "
+                    "keyword argument to %s(). Don't do that."
+                    % (key, cls.__name__)
                 )
             if not hasattr(cls, key):
                 raise TypeError(
-                    u"%s() received an invalid keyword %r" % (cls.__name__, key)
+                    f"{cls.__name__}() received an invalid keyword {key!r}"
                 )
         initkwargs["action"] = True
 
@@ -60,13 +61,13 @@ class AsActionMixin(object):
         return view
 
     def admin_log(self, obj, change_message, action_flag=None):
-        if action_flag == None:
+        if action_flag is None:
             action_flag = 99
         LogEntry.objects.log_action(
             user_id=self.request.user.pk,
             content_type_id=ContentType.objects.get_for_model(obj).pk,
             object_id=obj.pk,
-            object_repr=force_text(obj),
+            object_repr=force_str(obj),
             action_flag=action_flag,
             change_message=change_message,
         )
@@ -76,8 +77,8 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
     template_name = (
         "admin/soft_delete_model_mixin/soft_delete_selected_confirmation.html"
     )
-    short_description = ugettext_lazy("Delete selected %(verbose_name_plural)s")
-    action_name = b"soft_delete_selected"
+    short_description = gettext_lazy("Delete selected %(verbose_name_plural)s")
+    action_name = b"soft_delete_selected"  # type: ignore[assignment]
 
     # messages = messages
 
@@ -92,7 +93,7 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
         Next, it deletes all selected objects and redirects back to the change list.
         """
         opts = modeladmin.model._meta
-        app_label = opts.app_label
+        opts.app_label
 
         # Check that the user has delete permission for the actual model
         if not modeladmin.has_delete_permission(request):
@@ -102,8 +103,10 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
 
         # Populate deletable_objects, a data structure of all related objects that
         # will also be deleted.
-        deletable_objects, model_count, perms_needed, protected = get_deleted_objects(
-            queryset, opts, request.user, modeladmin.admin_site, using
+        deletable_objects, model_count, perms_needed, protected = (
+            get_deleted_objects(
+                queryset, opts, request.user, modeladmin.admin_site, using
+            )
         )
 
         # The user has already confirmed the deletion.
@@ -127,9 +130,9 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
             return None
 
         if len(queryset) == 1:
-            objects_name = force_text(opts.verbose_name)
+            objects_name = force_str(opts.verbose_name)
         else:
-            objects_name = force_text(opts.verbose_name_plural)
+            objects_name = force_str(opts.verbose_name_plural)
 
         if perms_needed or protected:
             title = _("Cannot delete %(name)s") % {"name": objects_name}
@@ -174,14 +177,14 @@ def soft_delete_selected(modeladmin, request, queryset):
     if not modeladmin.has_delete_permission(request):
         raise PermissionDenied
 
-    using = router.db_for_write(modeladmin.model)
+    router.db_for_write(modeladmin.model)
 
     # Populate deletable_objects, a data structure of all related objects that
     # will also be deleted.
     # deletable_objects, model_count, perms_needed, protected = get_deleted_objects(
     #     queryset, opts, request.user, modeladmin.admin_site, using)
-    deletable_objects, model_count, perms_needed, protected = get_deleted_objects(
-        queryset, request, modeladmin.admin_site
+    deletable_objects, model_count, perms_needed, protected = (
+        get_deleted_objects(queryset, request, modeladmin.admin_site)
     )
 
     # The user has already confirmed the deletion.
@@ -192,7 +195,7 @@ def soft_delete_selected(modeladmin, request, queryset):
         n = queryset.count()
         if n:
             for obj in queryset:
-                obj_display = force_text(obj)
+                obj_display = force_str(obj)
                 modeladmin.log_deletion(request, obj, obj_display)
             # queryset.delete()
             for obj in queryset:
@@ -207,9 +210,9 @@ def soft_delete_selected(modeladmin, request, queryset):
         return None
 
     if len(queryset) == 1:
-        objects_name = force_text(opts.verbose_name)
+        objects_name = force_str(opts.verbose_name)
     else:
-        objects_name = force_text(opts.verbose_name_plural)
+        objects_name = force_str(opts.verbose_name_plural)
 
     if perms_needed or protected:
         title = _("Cannot delete %(name)s") % {"name": objects_name}
@@ -236,8 +239,7 @@ def soft_delete_selected(modeladmin, request, queryset):
         request,
         modeladmin.delete_selected_confirmation_template
         or [
-            "admin/%s/%s/soft_delete_selected_confirmation.html"
-            % (app_label, opts.model_name),
+            f"admin/{app_label}/{opts.model_name}/soft_delete_selected_confirmation.html",
             "admin/%s/soft_delete_selected_confirmation.html" % app_label,
             "admin/soft_delete_model_mixin/soft_delete_selected_confirmation.html",
         ],
@@ -245,6 +247,4 @@ def soft_delete_selected(modeladmin, request, queryset):
     )
 
 
-soft_delete_selected.short_description = ugettext_lazy(
-    "Delete selected %(verbose_name_plural)s"
-)
+soft_delete_selected.short_description = gettext_lazy("Delete selected %(verbose_name_plural)s")  # type: ignore[attr-defined]

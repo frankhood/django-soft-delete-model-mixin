@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import logging
 
 from django.db import models
-from django.db.models.signals import pre_delete, post_delete
-from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import post_delete, pre_delete
+from django.utils.translation import gettext_lazy as _
 
 from . import managers as app_managers
 
@@ -27,7 +26,7 @@ class SoftDeleteModelMixin(models.Model):
         if commit:
             self.save()
 
-    remove.alters_data = True
+    remove.alters_data = True  # type: ignore[attr-defined]
 
     def delete(self, using=None):
         pre_delete.send(sender=self.__class__, instance=self, using=using)
@@ -35,4 +34,4 @@ class SoftDeleteModelMixin(models.Model):
         post_delete.send(sender=self.__class__, instance=self, using=using)
         logger.info("Post delete send")
 
-    delete.alters_data = True
+    delete.alters_data = True  # type: ignore[attr-defined]

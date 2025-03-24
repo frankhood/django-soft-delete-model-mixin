@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """
 test_django-soft-delete-model-mixin
@@ -10,7 +9,6 @@ Tests for `django-soft-delete-model-mixin` models module.
 
 from django.test import TestCase
 
-from soft_delete_model_mixin import models
 from tests.example.models import Book
 
 

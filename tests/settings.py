@@ -18,7 +18,7 @@ SECRET_KEY = "=f0ei_3wy8mdy3=mptxc+zq4cokmm9^3p)q003hy8!2pfcxj7$"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []  # type: ignore[var-annotated]
 
 # Application definition
 
@@ -102,7 +102,6 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
 
 USE_TZ = True
 

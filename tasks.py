@@ -7,7 +7,7 @@ from invoke import task
 def open_browser(path):
     try:
         from urllib import pathname2url
-    except:
+    except Exception:
         from urllib.request import pathname2url
     webbrowser.open("file://" + pathname2url(os.path.abspath(path)))
 
@@ -37,7 +37,9 @@ def coverage(c):
     """
     check code coverage quickly with the default Python
     """
-    c.run("coverage run --source django-soft-delete-model-mixin runtests.py tests")
+    c.run(
+        "coverage run --source django-soft-delete-model-mixin runtests.py tests"
+    )
     c.run("coverage report -m")
     c.run("coverage html")
     c.run("open htmlcov/index.html")
@@ -98,7 +100,7 @@ def release(c, bumpsize=""):
     if bumpsize:
         bumpsize = "--" + bumpsize
 
-    c.run("bumpversion {bump} --no-input".format(bump=bumpsize))
+    c.run(f"bumpversion {bumpsize} --no-input")
 
     import soft_delete_model_mixin
 

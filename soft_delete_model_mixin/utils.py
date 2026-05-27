@@ -16,8 +16,8 @@ from django.views.generic import TemplateView
 
 class AsActionMixin:
 
-    short_description = None
-    action_name = None
+    short_description: str | None = None
+    action_name: str | None = None
 
     messages = messages
 
@@ -78,7 +78,7 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
         "admin/soft_delete_model_mixin/soft_delete_selected_confirmation.html"
     )
     short_description = gettext_lazy("Delete selected %(verbose_name_plural)s")
-    action_name = b"soft_delete_selected"  # type: ignore[assignment]
+    action_name = "soft_delete_selected"
 
     # messages = messages
 
@@ -99,14 +99,10 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
         if not modeladmin.has_delete_permission(request):
             raise PermissionDenied
 
-        using = router.db_for_write(modeladmin.model)
-
         # Populate deletable_objects, a data structure of all related objects that
         # will also be deleted.
         deletable_objects, model_count, perms_needed, protected = (
-            get_deleted_objects(
-                queryset, opts, request.user, modeladmin.admin_site, using
-            )
+            get_deleted_objects(queryset, request, modeladmin.admin_site)
         )
 
         # The user has already confirmed the deletion.
@@ -118,8 +114,7 @@ class SoftDeleteActionView(AsActionMixin, TemplateView):
             if n:
                 for obj in queryset:
                     pass
-                    # obj_display = force_text(obj)
-                    # modeladmin.log_deletion(request, obj, obj_display)
+                    # modeladmin.log_deletion(request, obj, force_str(obj))
                 # queryset.delete()
                 for obj in queryset:
                     obj.delete()

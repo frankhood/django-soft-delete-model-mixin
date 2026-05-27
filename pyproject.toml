@@ -1,3 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soft-delete-model-mixin"
+dynamic = ["version"]
+description = "A Soft delete model mixin for your Django Model"
+readme = "README.rst"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    {name = "FrankHood Business Solutions srl", email = "info@frankhood.it"},
+]
+keywords = ["soft-delete-model-mixin"]
+requires-python = ">=3.11"
+dependencies = ["django>=5.2,<5.3"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Homepage = "https://github.com/frankhood/django-soft-delete-model-mixin"
+
+[project.optional-dependencies]
+test = [
+    "coverage>=7",
+    "flake8>=7",
+    "tox>=4",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "soft_delete_model_mixin.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["soft_delete_model_mixin*"]
+
+
 [tool.black]
 target-version = ["py311"]
 line-length = 120

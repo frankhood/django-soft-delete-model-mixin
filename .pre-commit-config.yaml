@@ -23,23 +23,20 @@ exclude: |
 
 repos:
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.17.0
+    rev: v3.21.2
     hooks:
     - id: pyupgrade
-      stages: [commit]
+      stages: [pre-commit]
       name: "✅ Python Upgrade"
       args:
-        - "--py38-plus"
-        - "--py39-plus"
-        - "--py310-plus"
-        - "--py311-plus"
+        - "--py314-plus"
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.21.0  # replace with latest tag on GitHub
+    rev: 1.30.0
     hooks:
     -   id: django-upgrade
-        stages: [commit]
+        stages: [pre-commit]
         name: "✅ Django Upgrade"
-        args: [--target-version, "4.2"]
+        args: [--target-version, "5.2"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0  # Use the ref you want to point at
     hooks:
@@ -49,7 +46,7 @@ repos:
     rev: 24.8.0
     hooks:
     - id: black
-      stages: [commit]
+      stages: [pre-commit]
       name: "✅ Black Reformatting"
       exclude: ^.*\b(migrations)\b.*$
       args: ["--line-length", "79"]
@@ -57,14 +54,14 @@ repos:
     rev: v2.3.1
     hooks:
     - id: autoflake
-      stages: [commit]
+      stages: [pre-commit]
       name: "✅ Autoflake Reformatting"
       language: python
       'types': [python]
       require_serial: true
       exclude: |
         (?x)(
-          .*?/migrations/.* 
+          .*?/migrations/.*
         )
       entry: autoflake
       args:
@@ -76,18 +73,18 @@ repos:
     rev: 7.1.1
     hooks:
     - id: flake8
-      stages: [commit]
+      stages: [pre-commit]
       name: "✅ Flake8 Validation"
   - repo: https://github.com/PyCQA/isort
     rev: 5.13.2
     hooks:
     - id: isort
-      stages: [commit]
+      stages: [pre-commit]
       name: "✅ Isort Validation"
   - repo: local
     hooks:
     - id: mypy
-      stages: [commit]
+      stages: [pre-commit]
       name: "✅ Mypy Validation"
       entry: mypy
       language: python

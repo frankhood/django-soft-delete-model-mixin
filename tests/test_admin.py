@@ -26,6 +26,23 @@ class TestSoftDeleteModelAdminActions(TestCase):
         actions = book_admin.get_actions(self._make_superuser_request())
         self.assertIn("soft_delete_selected", actions)
 
+    def test_get_queryset_excludes_removed(self):
+        """Changelist queryset must hide soft-deleted records."""
+        active = Book.objects.create(title="Active")
+        removed = Book.objects.create(title="Removed", is_removed=True)
+        book_admin = BookAdmin(Book, admin.site)
+        qs = book_admin.get_queryset(self._make_superuser_request())
+        pks = list(qs.values_list("pk", flat=True))
+        self.assertIn(active.pk, pks)
+        self.assertNotIn(removed.pk, pks)
+
+    def test_get_queryset_includes_active(self):
+        """Changelist queryset must show non-removed records."""
+        book = Book.objects.create(title="Visible")
+        book_admin = BookAdmin(Book, admin.site)
+        qs = book_admin.get_queryset(self._make_superuser_request())
+        self.assertIn(book.pk, list(qs.values_list("pk", flat=True)))
+
 
 class TestSoftDeleteAdminActionFunctional(TestCase):
     """Functional tests for the soft_delete_selected admin action via HTTP."""

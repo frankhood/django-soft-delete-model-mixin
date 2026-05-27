@@ -10,7 +10,9 @@ class TestSoftDeleteQuerySet(TestCase):
         self.removed = Book.objects.create(title="Removed", is_removed=True)
 
     def test_not_deleted_items_returns_only_active(self):
-        qs = SoftDeleteQuerySet(model=Book, using="default").not_deleted_items()
+        qs = SoftDeleteQuerySet(
+            model=Book, using="default"
+        ).not_deleted_items()
         pks = list(qs.values_list("pk", flat=True))
         self.assertIn(self.active.pk, pks)
         self.assertNotIn(self.removed.pk, pks)
@@ -22,7 +24,9 @@ class TestSoftDeleteQuerySet(TestCase):
         self.assertNotIn(self.active.pk, pks)
 
     def test_not_deleted_items_count(self):
-        qs = SoftDeleteQuerySet(model=Book, using="default").not_deleted_items()
+        qs = SoftDeleteQuerySet(
+            model=Book, using="default"
+        ).not_deleted_items()
         self.assertEqual(qs.count(), 1)
 
     def test_deleted_items_count(self):

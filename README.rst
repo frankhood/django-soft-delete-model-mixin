@@ -129,20 +129,38 @@ each one. Records are **not** deleted from the database.
 Running Tests
 -------------
 
-Run the full test suite (requires the package installed in editable mode with
-test dependencies)::
+**Quick run** (single Python, requires the package installed in editable mode)::
 
     pip install -e ".[test]"
     python runtests.py
 
-Run with coverage::
+**With coverage**::
 
     coverage run --source soft_delete_model_mixin runtests.py
     coverage report
 
-Run the full tox matrix (Python 3.11 – 3.14 × Django 5.2)::
+**Full tox matrix** (Python 3.11 – 3.14 × Django 5.2, local interpreters required)::
 
     tox
+
+**With Docker** (recommended — no local Python versions needed)
+
+The project ships a ``Dockerfile`` + ``docker-compose.yml`` that spin up all four
+interpreters (3.11, 3.12, 3.13, 3.14) against Django 5.2 in parallel:
+
+.. code-block:: bash
+
+    # First run: build the image (only needed once, or after Dockerfile changes)
+    docker compose build
+
+    # Run the full matrix (all 4 envs in parallel)
+    docker compose run --rm tox
+
+    # Run a single environment
+    docker compose run --rm tox tox -e py312-django52
+
+    # Subsequent runs reuse the tox/pip caches (named Docker volumes)
+    # and do not require a rebuild when only source files change.
 
 ----
 

@@ -3,9 +3,8 @@ services:
     build: .
     # Passa --parallel auto: tox esegue tutti gli env contemporaneamente
     command: tox --parallel auto --parallel-live
-    # Monta il sorgente in sola lettura così non serve rebuild ad ogni modifica
     volumes:
-      - .:/app:ro
+      - .:/app
       # Cache tox/pip separata per non sovrascrivere quella locale
       - tox-cache:/app/.tox
       - pip-cache:/root/.cache/pip
